@@ -6,13 +6,19 @@ public class Player : MonoBehaviour
 {
     public Sprite circle;
     public Sprite square;
+    public Sprite diamond;
     public bool isGrounded;
+    public bool touchingWall;
     public string currentSprite;
     public float speed = 15f;
+    public float jumpAmount = 5f;
+
     // Start is called before the first frame update
     void Start()
     {
         currentSprite = currentSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
+        speed = 15f;
+        jumpAmount = 5f;
     }
 
     // Update is called once per frame
@@ -23,12 +29,22 @@ public class Player : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().sprite = circle;
             currentSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
             speed = 15f;
+            jumpAmount = 5f;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
 		{
             gameObject.GetComponent<SpriteRenderer>().sprite = square;
             currentSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
             speed = 5f;
+            jumpAmount = 5f;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            gameObject.GetComponent<SpriteRenderer>().sprite = diamond;
+            currentSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
+            speed = 10f;
+            jumpAmount = 10f;
+            Debug.Log(currentSprite);
         }
     }
 
@@ -38,13 +54,17 @@ public class Player : MonoBehaviour
 		{
             isGrounded = true;
 		}
-        if (collision.gameObject.tag.Equals("Enemy") && (currentSprite == "Circle"))
+        if (collision.gameObject.tag.Equals("Enemy") && (currentSprite != "Square"))
         {
-            Destroy(gameObject);
+            DestroyPlayer();
         }
         if (collision.gameObject.tag.Equals("MovingWall"))
         {
-            Destroy(gameObject);
+            DestroyPlayer();
+        }
+        if (collision.gameObject.tag.Equals("Wall"))
+        {
+            touchingWall = true;
         }
     }
 
@@ -54,5 +74,15 @@ public class Player : MonoBehaviour
         {
             isGrounded = false;
         }
+        if (collision.gameObject.tag.Equals("Wall"))
+        {
+            touchingWall = false;
+        }
+    }
+
+    private void DestroyPlayer()
+    {
+        Destroy(gameObject);
+        FindObjectOfType<GameManager>().LoseGame();
     }
 }

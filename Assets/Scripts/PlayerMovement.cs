@@ -4,7 +4,6 @@ public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
     public Player player;
-    public float jumpAmount = 10f;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,9 +37,12 @@ public class PlayerMovement : MonoBehaviour
 	}
 	public void Jump()
     {
-		if (Input.GetKeyDown(KeyCode.Space) && (player.isGrounded == true))
+		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			rb.AddForce(Vector2.up * jumpAmount, ForceMode2D.Impulse);
+			if ((player.isGrounded == true) || ((player.touchingWall == true) && (player.currentSprite == "Isometric Diamond")))
+			{
+				rb.AddForce(Vector2.up * player.jumpAmount, ForceMode2D.Impulse);
+			}
 		}
     }
 }
