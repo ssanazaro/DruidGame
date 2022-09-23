@@ -15,7 +15,11 @@ public class PlayerMovement : MonoBehaviour
     {
         Movement();
 		Jump();
-    }
+	}
+	private void FixedUpdate()
+	{
+		
+	}
 
 	Vector2 Movement()
 	{
@@ -39,9 +43,15 @@ public class PlayerMovement : MonoBehaviour
     {
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			if ((player.isGrounded == true) || ((player.touchingWall == true) && (player.currentSprite == "Isometric Diamond")))
+			if ((player.jumpCharges > 0f))
 			{
+				Debug.Log("Before: " + player.jumpCharges);
 				rb.AddForce(Vector2.up * player.jumpAmount, ForceMode2D.Impulse);
+				if (Input.GetKeyUp(KeyCode.Space))
+				{
+					player.jumpCharges = player.jumpCharges - 1f;
+					Debug.Log("After: " + player.jumpCharges);
+				}
 			}
 		}
     }

@@ -140,8 +140,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 738086645015702419}
   player: {fileID: 0}
-  speed: 7
-  jumpAmount: 3
 --- !u!114 &738086645015702121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +154,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   circle: {fileID: -2413806693520163455, guid: c147a269401be454bbf642881483fae6, type: 3}
   square: {fileID: 7482667652216324306, guid: f11e74abe559eb3419d5e00163705d81, type: 3}
+  diamond: {fileID: 0}
+  isGrounded: 0
+  touchingWall: 0
+  currentSprite: 
+  speed: 15
+  jumpAmount: 5
 --- !u!114 &738086645015702120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,5 +174,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 738086645015702419}
   player: {fileID: 0}
-  speed: 5
-  jumpAmount: 10

@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Sprite circle;
-    public Sprite square;
-    public Sprite diamond;
+    public Sprite normalForm;
+    public Sprite strongForm;
+    public Sprite jumpForm;
+    public Sprite fastForm;
     public bool isGrounded;
     public bool touchingWall;
     public string currentSprite;
     public float speed = 15f;
     public float jumpAmount = 5f;
+    public float jumpCharges;
+    private float maxJumpCharges = 1f;
+    private float jumpFormMaxJumpCharges = 2f;
 
     // Start is called before the first frame update
     void Start()
     {
         currentSprite = currentSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
-        speed = 15f;
+        speed = 7f;
         jumpAmount = 5f;
     }
 
@@ -26,25 +30,40 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            gameObject.GetComponent<SpriteRenderer>().sprite = circle;
+            //This represents the human form
+            gameObject.GetComponent<SpriteRenderer>().sprite = normalForm;
             currentSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
-            speed = 15f;
+            speed = 7f;
             jumpAmount = 5f;
+            jumpCharges = 1f;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
 		{
-            gameObject.GetComponent<SpriteRenderer>().sprite = square;
+            //This represents the tank form
+            gameObject.GetComponent<SpriteRenderer>().sprite = strongForm;
             currentSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
             speed = 5f;
             jumpAmount = 5f;
+            jumpCharges = 1f;
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            gameObject.GetComponent<SpriteRenderer>().sprite = diamond;
+            //This represents the double fast form
+            gameObject.GetComponent<SpriteRenderer>().sprite = fastForm;
             currentSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
             speed = 10f;
-            jumpAmount = 10f;
+            jumpAmount = 5f;
+            jumpCharges = 1f;
             Debug.Log(currentSprite);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            //This represents the double jump form
+            gameObject.GetComponent<SpriteRenderer>().sprite = jumpForm;
+            currentSprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
+            speed = 7f;
+            jumpAmount = 5f;
+            jumpCharges = 2f;
         }
     }
 
@@ -52,9 +71,16 @@ public class Player : MonoBehaviour
 	{
 		if (collision.gameObject.tag.Equals("Ground"))
 		{
-            isGrounded = true;
-		}
-        if (collision.gameObject.tag.Equals("Enemy") && (currentSprite != "Square"))
+			if (currentSprite == "JumpForm")
+			{
+                jumpCharges = jumpFormMaxJumpCharges;
+            }
+			else
+			{
+                jumpCharges = maxJumpCharges;
+            }
+        }
+		if (collision.gameObject.tag.Equals("Enemy") && (currentSprite != "StrongForm"))
         {
             DestroyPlayer();
         }
@@ -70,11 +96,11 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.tag.Equals("Ground"))
-        {
-            isGrounded = false;
-        }
-        if (collision.gameObject.tag.Equals("Wall"))
+		//if (collision.gameObject.tag.Equals("Ground"))
+		//{
+  //          jumpCharges = jumpCharges - 1f;
+		//}
+		if (collision.gameObject.tag.Equals("Wall"))
         {
             touchingWall = false;
         }
