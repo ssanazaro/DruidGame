@@ -59,7 +59,6 @@ sysinfo.txt
 crashlytics-build.properties
 
 */Library
-*.meta
 *.cache
 *.log
 *.backup
